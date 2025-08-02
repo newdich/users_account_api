@@ -1,6 +1,17 @@
 <?php
- include($_SERVER['DOCUMENT_ROOT'].'/Config');
-  class Register{
+namespace Account\Command;
+use OpenApi\Annotations as OA;
+/**
+ * @OA\Post(
+ *      path="/register",
+ *      summary="This endpoint creates account for user on Newdich Platform",
+ *      @OA\Response(
+ *          response = 200,
+ *          description ="successful response"
+ *      )
+ * )
+ */
+class Register{
     private $emailTolow;
     private $identity;
     private $fullName;
@@ -23,29 +34,34 @@
     private $isAdmin;
     private $displayPix;
     private $Time;
-     public function __construct($emailIn, $identityIn, $fullNameIn, $passwordIn, $usernameIn, $countryIn, $phoneNumberIn, $whatsAppNumberIn, $statusIn, $genderIn, $addressIn, $isAmbassadorIn, $isStudentIn, $isSiwesIn, $isInternIn, $isGraduateIn, $isStaffIn, $isAdminIn, $displayPixIn, $timeIn){
-            $this->emailTolow=$emailIn;
-            $this->identity=$identityIn;
-            $this->fullName=$fullNameIn;
-            $this->passwordToCount=$passwordIn;
-            $this->userNameToLow=$usernameIn;
-            $this->country=$countryIn;
-            $this->phoneNumber=$phoneNumberIn;
-            $this->whatsAppNumber=$whatsAppNumberIn;
-            $this->status=$statusIn;
-            //$this->dateRegisterd=$dateRegisteredIn;
-            //$this->lastSeen=$lastSeenIn;
-            $this->gender =$genderIn;
-            $this->address =$addressIn;
-            $this->isAmbassador =$isAmbassadorIn;
-            $this->isStudent =$isStudentIn;
-            $this->isSiwes =$isSiwesIn;
-            $this->isIntern =$isInternIn;
-            $this->isGraduate =$isGraduateIn;
-            $this->isStaff =$isStaffIn;
-            $this->isAdmin =$isAdminIn;
-            $this->displayPix =$displayPixIn;
-            $this->Time =$timeIn;
+
+    function __construct($emailIn, $identityIn, $fullNameIn, $passwordIn, $usernameIn, $countryIn, $phoneNumberIn, $whatsAppNumberIn, $statusIn, $genderIn, $addressIn, $isAmbassadorIn, $isStudentIn, $isSiwesIn, $isInternIn, $isGraduateIn, $isStaffIn, $isAdminIn, $displayPixIn, $timeIn){
+        $this->_CONNUSERS;
+        $this->emailTolow=$emailIn;
+        $this->identity=$identityIn;
+        $this->fullName=$fullNameIn;
+        $this->passwordToCount=$passwordIn;
+        $this->userNameToLow=$usernameIn;
+        $this->country=$countryIn;
+        $this->phoneNumber=$phoneNumberIn;
+        $this->whatsAppNumber=$whatsAppNumberIn;
+        $this->status=$statusIn;
+        //$this->dateRegisterd=$dateRegisteredIn;
+        //$this->lastSeen=$lastSeenIn;
+        $this->gender =$genderIn;
+        $this->address =$addressIn;
+        $this->isAmbassador =$isAmbassadorIn;
+        $this->isStudent =$isStudentIn;
+        $this->isSiwes =$isSiwesIn;
+        $this->isIntern =$isInternIn;
+        $this->isGraduate =$isGraduateIn;
+        $this->isStaff =$isStaffIn;
+        $this->isAdmin =$isAdminIn;
+        $this->displayPix =$displayPixIn;
+        $this->Time =$timeIn;
+    }
+    
+    public function registration(){
         if($emailIn==''){
             $sendMe=array("Status"=>"Failed", "Response"=>"email require");
             return  json_encode( $sendMe, TRUE);
@@ -69,10 +85,10 @@
       
         else{
             //checking  email already exist
-            $checkEmail=_CONNUSER->Prepera("SELECT * FROM USERS_TABLE WHERE email:em");
+            $checkEmail=$this->_CONNUSER->Prepera("SELECT * FROM USERS_TABLE WHERE email:em");
             $checkEmail->bindParam(":em", $emailIn, PDO::PARAM_STR);
             //checking username already exit
-            $checkUserName=_CONNUSER->Prepare("SELECT * FROM USER_TABLE WHERE username:usna");
+            $checkUserName=$this->_CONNUSER->Prepare("SELECT * FROM USER_TABLE WHERE username:usna");
             $checkUserName->bindParam(":usna", $usernameIn, PDO::PARAM_STR);
             if($checkEmail->rowCount() > 0){
                  $sendSelEmail=array("Status" =>"Failed", "Response" =>"Email had been used");
@@ -93,7 +109,7 @@
                 elseif($usernameIn !=''){
                     $usertosave = $usernameIn;
                 }
-                $regUser=__CONNUSER->Prepare("INSERT TO USERS_TABLE(email, identity1, fullName, password1, country, phoneNumber, whatsAppNumber, status1, gender, address1, isAmbassador, isStudent, isSiwes, isIntern, isgraduedate, isStaff, isAmin, displayPix)
+                $regUser=$this->__CONNUSER->Prepare("INSERT TO USERS_TABLE(email, identity1, fullName, password1, country, phoneNumber, whatsAppNumber, status1, gender, address1, isAmbassador, isStudent, isSiwes, isIntern, isgraduedate, isStaff, isAmin, displayPix)
                 VALUE(:mail, :iden, :full, :pass, :usna, :coun, :num, :whatnum, :sta, :gen, :adr, :amba, :stu, :siw, :inte, :gra, :staf, :admi, :dis)");
                 $regUser->bindParam(":mail", $emailIn, PDO::PARAM_STR);
                 $regUser->bindParam(":iden", $identityIn, PDO::PARAM_STR);
@@ -135,31 +151,6 @@
                 }
             }
         }
-     }
+    }
   }
-        $email =htmlspecialchars(trim($_REQUEST['email']));
-        // converting email to lower case  
-        $emailTolow =strtolower($email);
-        $identity =md5($_REQUEST['email']);
-        $fullName =htmlspecialchars(trim($_REQUEST['fullName']));
-        $password =sha1($_REQUEST['password']);
-        $passwordToCount=strlen($password);
-        $userName =htmlspecialchars(trim($_REQUEST['userName']));
-        //  username to lowercase
-        $userNameToLow =strtolower($userName);
-        $country =htmlspecialchars($_REQUEST['country']);
-        $phoneNumber =htmlspecialchars(trim($_REQUEST['phoneNumber']));
-        $whatsAppNumber =htmlspecialchars(trim($_REQUEST['whatsAppNumber']));
-        $status =htmlspecialchars(trim($_REQUEST['status']));
-        $Time =strtotime(date('h:i:s'));
-        $gender =htmlspecialchars($_REQUEST['gender']);
-        $address =htmlspecialchars($_REQUEST['address']);
-        $isAmbassador =htmlspecialchars($_REQUEST['isAmbassador']);
-        $isStudent =htmlspecialchars($_REQUEST['isStudent']);
-        $isSiwes =htmlspecialchars($_REQUEST['isSiwes']);
-        $isIntern =htmlspecialchars($_REQUEST['isIntern']);
-        $isGraduate =htmlspecialchars($_REQUEST['isGraduate']);
-        $isStaff =htmlspecialchars($_REQUEST['isStaff']);
-        $isAdmin =htmlspecialchars($_REQUEST['isAdmin']);
-        $displayPix =htmlspecialchars($_REQUEST['displayPix']) ;
  ?>

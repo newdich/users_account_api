@@ -1,11 +1,22 @@
 <?php
-include($_SERVER["DOCUMENT_ROOT"]."/config");
-
+namespace Account\Query;
+use OpenApi\Annotations as OA;
+/**
+ * @OA\Post(
+ *      path="/login",
+ *      summary="This endpoint log user in to Newdich Platforms",
+ *      @OA\Response(
+ *          response = 200,
+ *          description ="array"
+ *      )
+ * )
+ */
+//include($_SERVER["DOCUMENT_ROOT"]."/config");
 class Login{
     private $email;
     private $password;
 
-    public function __construct($emailToUse, $passwordToUse){
+    function __construct($emailToUse, $passwordToUse){
         $this->email=$emailToUse;
         $this->password=$passwordToUse;
 
@@ -13,7 +24,7 @@ class Login{
             $count=strlen($this->password);
             if($this->email !="" && $this->password !=""){
                 if($count >= 8){
-                $log = _CONNUSER->prepare("SELECT username,country,phoneNumber,whatsAppNumber,status,dateRegistered,lastSeen,gender,emailVerification,password
+                $log = $this->_CONNUSER->prepare("SELECT username,country,phoneNumber,whatsAppNumber,status,dateRegistered,lastSeen,gender,emailVerification,password
                 FROM USERS_TABLE WHERE email=:em");
                 $log->bindParam(':em',$email,PDO::PARAM_STR);
                 //$log->bindParam(':pd',$hashpassword,PDO::PARAM_STR);
@@ -72,7 +83,4 @@ class Login{
 
     }
 }
-
-$newLogin= new Login();
-
 ?>

@@ -1,0 +1,1 @@
+./vendor/bin/openapi --output docs/openapi.json Command/ . --exclude vendor

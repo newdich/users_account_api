@@ -1,0 +1,54 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Newdich Accounts API Endpoints",
+        "description": "This endpoint handles everything that has to do with users account across all Newdich Portal",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/register": {
+            "post": {
+                "summary": "This endpoint creates account for user on Newdich Platform",
+                "operationId": "de19eb8060b5681f54fb679bd5901763",
+                "responses": {
+                    "200": {
+                        "description": "successful response"
+                    }
+                }
+            }
+        },
+        "/update": {
+            "post": {
+                "summary": "This endpoints updates users account",
+                "operationId": "6b6474ecb594191a4ef1c8b6df92eb94",
+                "responses": {
+                    "200": {
+                        "description": "array"
+                    }
+                }
+            }
+        },
+        "/login": {
+            "post": {
+                "summary": "This endpoint log user in to Newdich Platforms",
+                "operationId": "94e9955e6ea14a4ff2a8ada0c2be1478",
+                "responses": {
+                    "200": {
+                        "description": "array"
+                    }
+                }
+            }
+        },
+        "/profile": {
+            "post": {
+                "summary": "This endpoint retrieves users profile on Newdich Technology",
+                "operationId": "5648efe6bacd4b2404a9fc079600cf76",
+                "responses": {
+                    "200": {
+                        "description": "array"
+                    }
+                }
+            }
+        }
+    }
+}

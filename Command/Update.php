@@ -1,6 +1,17 @@
 <?php
- include($_SERVER['DOCUMENT_ROOT'].'');
-   class Update{
+namespace Account\Command;
+use OpenApi\Annotations as OA;
+/**
+ * @OA\Post(
+ *      path="/update",
+ *      summary="This endpoints updates users account",
+ *      @OA\Response(
+ *          response = 200,
+ *          description ="array"
+ *      )
+ * )
+ */
+class Update{
        private $fname;
        private $password;
        private $username;
@@ -80,30 +91,4 @@
         }
       }
    }
-
-
-
-   $uppdate_fulname = htmlspecialchars(trim($_REQUEST['fulname']))??'';
-   $update_password = $_REQUEST['password']??'';
-   $updat_username = htmlspecialchars(trim($_REQUEST['username']))??'';
-   $updat_country = htmlspecialchars(trim($_REQUEST['country']))??'';
-   $updat_phoneNumber = htmlspecialchars(trim($_REQUEST['phoneNumber']))??'';
-   $updat_whatAppNumber = htmlspecialchars(trim($_REQUEST['whatAppNumber']))??'';
-   $updat_status = htmlspecialchars(trim($_REQUEST['status']))??'';
-   $updat_datereg = htmlspecialchars(trim($_REQUEST['datereg']))??'';
-   $updat_lastseen = htmlspecialchars(trim($_REQUEST['lastseen']))??'';
-   $updat_gender = htmlspecialchars(trim($_REQUEST['gender']))??'';
-   $updat_address = htmlspecialchars(trim($_REQUEST['address']))??'';
-   $updat_emailverification = htmlspecialchars(trim($_REQUEST['emailverification']))??'';
-   $updat_isAmbassador = htmlspecialchars(trim($_REQUEST['isAmbassador']))??'';
-   $updat_isStudent = htmlspecialchars(trim($_REQUEST['isStudent']))??'';
-   $updat_isSiwes = htmlspecialchars(trim($_REQUEST['isSiwes']))??'';
-   $updat_isIntern = htmlspecialchars(trim($_REQUEST['isIntern']))??'';
-   $updat_isGraduate = htmlspecialchars(trim($_REQUEST['isGraduate']))??'';
-   $updat_isStaff = htmlspecialchars(trim($_REQUEST['isStaff']))??'';
-   $updat_isAdim = htmlspecialchars(trim($_REQUEST['isAdim']))??'';
-   $updat_displayPix = htmlspecialchars(trim($_REQUEST['displayPix']))??'';
-   $updat_otp = htmlspecialchars(trim($_REQUEST['otp']))??'';
-   $updat_email = htmlspecialchars(trim($_REQUEST['email']))??'';
-   //$updat_username = htmlspecialchars(trim($_REQUEST['']))??'';
 ?>

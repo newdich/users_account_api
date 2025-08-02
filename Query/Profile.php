@@ -1,18 +1,29 @@
 <?php
-include($_SERVER["DOCUMENT_ROOT"]."/config");
+namespace Account\Query;
+use OpenApi\Annotations as OA;
+/**
+ * @OA\Post(
+ *      path="/profile",
+ *      summary="This endpoint retrieves users profile on Newdich Technology",
+ *      @OA\Response(
+ *          response = 200,
+ *          description ="array"
+ *      )
+ * )
+ */
+//include($_SERVER["DOCUMENT_ROOT"]."/config");
 class Profile{
 
     private $email;
     private $password;
     private $id;
-    private $table = "USERS_TABLE";
     
     function __construct($emailIn,$passIn,$idIn){
         $this->email = $emailIn;
         $this->password = $passIn;
         $this->id = $idIn;
 
-        $query = _CONNUSER->prepare("SELECT fullName,username,country,phoneNumber,whatsappNumber,status,dateRegistered,lastSeen,gender,address,emailVerification,isAmbassador,isStudent,isSiwes,
+        $query = $this->_CONNUSER->prepare("SELECT fullName,username,country,phoneNumber,whatsappNumber,status,dateRegistered,lastSeen,gender,address,emailVerification,isAmbassador,isStudent,isSiwes,
         isIntern,isGraduate,isStaff,isAdmin,displayPix FROM $this->table WHERE email=:em AND identity=:id");
         $query->bindParam(':em',$this->email,PDO::PARAM_STR);
         $query->bindParam(':id',$this->id,PDO::PARAM_STR);
@@ -74,6 +85,4 @@ class Profile{
     }
 
 }
-$newProfile = new Profile();
-
 ?>

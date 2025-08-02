@@ -1,0 +1,11 @@
+{
+    "require": {
+        "zircote/swagger-php": "^4.11",
+        "doctrine/annotations": "^2.0"
+    },
+    "autoload":{
+        "psr-4": {
+            "Account\\":"./"
+        }
+    }
+}
