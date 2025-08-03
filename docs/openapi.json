@@ -10,9 +10,78 @@
             "post": {
                 "summary": "This endpoint creates account for user on Newdich Platform",
                 "operationId": "de19eb8060b5681f54fb679bd5901763",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "fullName",
+                                    "password",
+                                    "username",
+                                    "country",
+                                    "phoneNumber",
+                                    "whatsAppNumber",
+                                    "dateRegistered",
+                                    "lastSeen",
+                                    "gender",
+                                    "address"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "example": "newdichuser@gmail.com"
+                                    },
+                                    "fullName": {
+                                        "type": "string",
+                                        "example": "newdich technology"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "********"
+                                    },
+                                    "username": {
+                                        "type": "string",
+                                        "example": "newdich"
+                                    },
+                                    "country": {
+                                        "type": "string",
+                                        "example": "Nigeria"
+                                    },
+                                    "phoneNumber": {
+                                        "type": "string",
+                                        "example": "+4409372827"
+                                    },
+                                    "whatsAppNumber": {
+                                        "type": "string",
+                                        "example": "+44272927829"
+                                    },
+                                    "dateRegistered": {
+                                        "type": "string",
+                                        "example": "2025-08-03 12:45:55"
+                                    },
+                                    "lastSeen": {
+                                        "type": "string",
+                                        "example": "2025-08-03 12:45:55"
+                                    },
+                                    "gender": {
+                                        "type": "string",
+                                        "example": "male"
+                                    },
+                                    "address": {
+                                        "type": "string",
+                                        "example": "10, mungo park, London"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "200": {
-                        "description": "successful response"
+                        "description": "Successful response"
                     }
                 }
             }

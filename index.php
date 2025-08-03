@@ -1,19 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Newdich Accounts Endpoints</title>
-    <link rel="stylesheet" href="swagger/dist/swagger-ui.css" />
-</head>
-<body>
-    <div id="swagger-ui"></div>
-    <script src="swagger/dist/swagger-ui-bundle.js"></script>
-    <script>
-        const ui = SwaggerUIBundle({
-            url:"../docs/openapi.json",
-            dom_id:'#swagger-ui'
-        });
-    </script>
-</body>
-</html>
+<?php
+require_once __DIR__ . '/vendor/autoload.php';
+use Account\Command\Register;
+use Account\Controller\RegisterController;
+if($_SERVER["REQUEST_URI"] ==='/register'){
+    $input = json_decode(file_get_contents("php://input"), true);
+    $email = $input["email"];
+    $fullName = $input["fullName"];
+    $password = $input["password"];
+    $username = $input["username"];
+    $country = $input["country"];
+    $phoneNumber = $input["phoneNumber"];
+    $whatsAppNumber = $input["whatsAppNumber"];
+    $dateRegistered = $input["dateRegistered"];
+    $lastSeen = $input["lastSeen"];
+    $gender = $input["gender"];
+    $address = $input["address"];
+    $displayPix = $input["displayPix "];
+
+    $newUser = new Register($email, $fullName, $password, $username, $country, $phoneNumber, $whatsAppNumber, $dateRegistered, $lastSeen, $gender, $address, '', '', '', '', '', '', '', $displayPix);
+    $newUser->registration();
+    //$n = new Register();
+    //echo $n->trimData($email);
+}
+?>

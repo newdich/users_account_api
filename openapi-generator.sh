@@ -1,1 +1,1 @@
-./vendor/bin/openapi --output docs/openapi.json Command/ . --exclude vendor
+./vendor/bin/openapi --output docs/openapi.json Command/ Controller/ Query/ . --exclude vendor

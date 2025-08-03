@@ -5,84 +5,87 @@ use OpenApi\Annotations as OA;
  * @OA\Post(
  *      path="/profile",
  *      summary="This endpoint retrieves users profile on Newdich Technology",
+ *      @OA\RequestBody(
+ *          required=true,
+ *          @OA\JsonContent(
+ *              required={"identity"},
+ *              @OA\Property(property="identity", type="string", example="9873y3u8282939282$0383b$2y=")
+ *          )
+ *      ),
  *      @OA\Response(
  *          response = 200,
  *          description ="array"
  *      )
  * )
  */
-//include($_SERVER["DOCUMENT_ROOT"]."/config");
+use Account\Config\Constant;
+
 class Profile{
-
-    private $email;
-    private $password;
-    private $id;
+    private $identity;
     
-    function __construct($emailIn,$passIn,$idIn){
-        $this->email = $emailIn;
-        $this->password = $passIn;
-        $this->id = $idIn;
-
-        $query = $this->_CONNUSER->prepare("SELECT fullName,username,country,phoneNumber,whatsappNumber,status,dateRegistered,lastSeen,gender,address,emailVerification,isAmbassador,isStudent,isSiwes,
-        isIntern,isGraduate,isStaff,isAdmin,displayPix FROM $this->table WHERE email=:em AND identity=:id");
-        $query->bindParam(':em',$this->email,PDO::PARAM_STR);
-        $query->bindParam(':id',$this->id,PDO::PARAM_STR);
-        $query->execute();
-
-        $bank = [];
-
-        if($query->rowCount()){
-            $retn = $query->fetch(PDO::FETCH_ASSOC);
-
-            $retFullname = $retn['fullName'];
-            $retUsername = $retn['username'];
-            $retCountry = $retn['country'];
-            $retPhonenumber = $retn['phoneNumber'];
-            $retWhatsappnumber = $retn['whatsappNumber'];
-            $retStatus = $retn['dateRegistered'];
-            $retLastseen = $retn['lastSeen'];
-            $retGender = $retn['gender'];
-            $retAddress = $retn['address'];
-            $retEmailverification = $retn['emailVerification'];
-            $retIsambassador = $retn['isAmbassador'];
-            $retIsstudent = $retn['isStudent'];
-            $retIssiwes = $retn['isSiwes'];
-            $retIsintern = $retn['isIntern'];
-            $retIsgraduate = $retn['isGraduate'];
-            $retIsstaff = $retn['isStaff'];
-            $retAdmin = $retn['isAdmin'];
-            $retDisplaypix = $retn['displayPix'];
-
-
-            $data = array(
-                "fullname" => $retFullname,
-                "username" => $retUsername,
-                "country" => $retCountry,
-                "phonenumber" => $retPhonenumber,
-                "whatsappnumber" => $retWhatsappnumber,
-                "status" => $retStatus,
-                "lastseen" => $retLastseen,
-                "gender" => $retGender,
-                "address" => $retAddress,
-                "emailverification" => $retEmailverification,
-                "ambassador" => $retIsambassador,
-                "student" => $retIsstudent,
-                "siwes" => $retIssiwes,
-                "intern" => $retIsintern,
-                "graduate" => $retIsgraduate,
-                "staff" => $retIsstaff,
-                "admin" => $retAdmin,
-                "displaypix" => $retDisplaypix
-            );
-
-            $bank[] = $data;
-
-            return json_encode(array("status"=>"success","response"=>$bank),TRUE);
-        }
-        else{
-            return json_encode(array("status"=>"failed","response"=>"No data found"),TRUE);
-       }
+    function __construct($identity){
+        $this->identity = $identity;
     }
 
+    public function userProfile(){
+        global $CONNUSER, $USER_TABLE, $ACTIVE, $PENDING, $SUSPENDED; //variables needed
+        //call columns needed
+        global $TID, $TEMAL, $TFULLNAME, $TCOUNTRY, $TCOUNTRYCODE, $TPHONE, $TWHATSAPP, $TPASS, $TPIX;
+        global $TDATEREG, $TPLINK, $TADDR, $TABOUT, $TFACEBOOK, $TWITTER, $TUSER, $TSTATUS, $TTUTOR, $TOTP;
+        global $TVERIFIED, $TLASTSEEN, $TCV, $TOFFICIAL, $TIDENTITY, $TOTPVERIFIED, $TGENDER, $TEMAILVERIFY;
+        global $TAMBASSADOR, $TSTUDENT, $TSIWES, $TINTERN, $TGRADUATE, $TSTAFF, $TADMIN;
+
+        try{
+            $q = $CONNUSER->prepare("SELECT * FROM $USER_TABLE WHERE $TIDENTITY=:tid");
+            $q->bindParam(':tid', $this->identity, PDO::PARAM_STR);
+            $q->execute();
+            if($q->rowCount() > 0){
+                $rq = $q->fetch(PDO::FETCH_ASSOC);
+                $userData = array(
+                    "email"=>$rq[$TEMAL],
+                    "fullName"=>$rq[$TFULLNAME],
+                    "country"=>$rq[$TCOUNTRY],
+                    "countryCode"=>$rq[$TCOUNTRYCODE],
+                    "phoneNumber"=>$rq[$TPHONE],
+                    "whatsAppNumber"=>$rq[$TWHATSAPP],
+                    "picture"=>$rq[$TPIX],
+                    "dateRegistered"=>$rq[$TDATEREG],
+                    "profileLink"=>$rq[$TPLINK],
+                    "address"=>$rq[$TADDR],
+                    "about"=>$rq[$TABOUT],
+                    "facebook"=>$rq[$TFACEBOOK],
+                    "twitter"=>$rq[$TWITTER],
+                    "userName"=>$rq[$TUSER],
+                    "status"=>$rq[$TSTATUS],
+                    "isTutor"=>$rq[$TTUTOR],
+                    "otp"=>$rq[$TOTP],
+                    "lastSeen"=>$rq[$TLASTSEEN],
+                    "cv"=>$rq[$TCV],
+                    "officialPage"=>$rq[$TOFFICIAL],
+                    "gender"=>$rq[$TGENDER],
+                    "emailVerification"=>$rq[$TEMAILVERIFY],
+                    "isAmbassador"=>$rq[$TAMBASSADOR],
+                    "isStudent"=>$rq[$TSTUDENT],
+                    "isSiwes"=>$rq[$TSIWES],
+                    "isIntern"=>$rq[$TINTERN],
+                    "isGraduate"=>$rq[$TGRADUATE],
+                    "isStaff"=>$rq[$TSTAFF],
+                    "isAdmin"=>$rq[$TADMIN]
+                );
+                http_response_code(200);
+                echo json_encode(array("status"=>"success", "response"=>$userData), TRUE);
+                exit;
+            }
+            else{
+                http_response_code(400);
+                echo json_encode(array("status"=>"failed", "response"=>"user not found"), TRUE);
+                exit;
+            }
+        }
+        catch(Exception $e){
+            http_response_code(500);
+            echo json_encode(array("status"=>"failed", "response"=>$e->getMessage()), TRUE);
+        }
+    }
 }
 ?>
